@@ -20,7 +20,7 @@ var UserInputForm = React.createClass({
 
 var OneUserGreeting = React.createClass({
   handleClick: function(){
-    this.props.deleteName(this.props.key)
+    this.props.deleteName(this.props.myKey)
   },
   render: function(){
     return (
@@ -40,7 +40,8 @@ var ListOfGreetings = React.createClass({
   render: function(){
     var scope = this;
     var usersLIs = this.props.names.map(function(name, index){
-      return <OneUserGreeting name={name} key={index} deleteName={scope.props.deleteName}/>;
+      console.log(name, index)
+      return <OneUserGreeting name={name} myKey={index} key={index} deleteName={scope.props.deleteName}/>;
     });
     return (
       <div>
@@ -57,8 +58,9 @@ var App = React.createClass({
     return { names: [] };
   },
   deleteName: function(index){
+    var newNames = this.state.names.splice(index, 1)
     this.setState({
-      names: this.state.names.splice(index, 1)
+      names: this.state.names
     });
   },
   greet: function(name){
