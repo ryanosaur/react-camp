@@ -1,14 +1,16 @@
+var OneUserGreeting = React.createClass({
+  render: function(){
+    return <li key={this.props.key}>Hello {this.props.name}</li>
+  }
+});
+
 var Hello = React.createClass({
   getInitialState: function(){
     return { names: [] };
   },
-  push: function(name){
-    this.state.names.unshift(<li key={name}> {"Hello " + name } </li>);
-  },
   greet: function(){
-    this.push(this.refs.name2greet.value);
     this.setState({
-      names: this.state.names
+      names: this.state.names.concat(this.refs.name2greet.value)
     }, function(){
       this.refs.name2greet.value = '';
     });
@@ -23,13 +25,18 @@ var Hello = React.createClass({
     console.log("going to unmount now...");
   },
   render: function(){
+    var usersLIs = this.state.names.map(function(name, index){
+      return (
+        <OneUserGreeting name={name} key={index} />
+      )
+    });
     return (
       <div>
         <input placeholder="Name" ref="name2greet"/>
         <button onClick={this.greet}>Greet</button>
         <hr />
         <ul>
-          { this.state.names }
+          { usersLIs }
         </ul>
       </div>
     );
